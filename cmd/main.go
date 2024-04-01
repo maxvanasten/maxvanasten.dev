@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 )
@@ -21,7 +22,10 @@ func main() {
 			http.ListenAndServe(":3000", nil)
 		} else if mode == "-P" {
 			fmt.Println("Server running on: https://maxvanasten.dev")
-			http.ListenAndServeTLS(":443", "domain.cert.pem", "private.key.pem", nil)
+			err := http.ListenAndServeTLS(":443", "domain.cert.pem", "private.key.pem", nil)
+			if err != nil {
+				log.Fatal(err)
+			}
 		} else {
 			fmt.Println("Unknown 'mode' option, try -D for local development or -P for production.")
 		}
